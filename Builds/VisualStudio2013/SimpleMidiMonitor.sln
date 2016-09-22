@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2013
+Project("{6A6DCDE2-E367-97C9-634D-DF09019B78F3}") = "SimpleMidiMonitor", "SimpleMidiMonitor.vcxproj", "{A36B2903-1C5D-8FAE-0638-2D4D56AE8A14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A36B2903-1C5D-8FAE-0638-2D4D56AE8A14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A36B2903-1C5D-8FAE-0638-2D4D56AE8A14}.Debug|Win32.Build.0 = Debug|Win32
+		{A36B2903-1C5D-8FAE-0638-2D4D56AE8A14}.Release|Win32.ActiveCfg = Release|Win32
+		{A36B2903-1C5D-8FAE-0638-2D4D56AE8A14}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
