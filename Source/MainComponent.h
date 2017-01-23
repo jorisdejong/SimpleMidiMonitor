@@ -19,7 +19,9 @@
 */
 class MainContentComponent   : public Component,
 	public MidiInputCallback,
-	public Timer
+	public Timer,
+    public ComboBox::Listener,
+    public Button::Listener
 {
 public:
     //==============================================================================
@@ -31,12 +33,16 @@ public:
 
 	void handleIncomingMidiMessage( MidiInput* source,
 		const MidiMessage& message ) override;
-
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void buttonClicked (Button* b) override;
 	virtual void timerCallback() override;
 
 private:
+    void refreshDeviceList();
 	juce::StringArray messages;
-	OwnedArray<MidiInput> openInputs;
+    ScopedPointer<MidiInput> openInput;
+    ScopedPointer<ComboBox> inputBox;
+    ScopedPointer<TextButton> refreshButton;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

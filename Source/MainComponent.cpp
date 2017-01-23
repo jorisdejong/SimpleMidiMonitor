@@ -12,32 +12,26 @@
 //==============================================================================
 MainContentComponent::MainContentComponent()
 {
-	setSize( 600, 400 );
-
-	//check for all connected midi devices
-	juce::StringArray midiDevices = MidiInput::getDevices();
-
-	//try to open them all
-
-	for ( int i = 0; i < midiDevices.size(); i++ )
-	{
-		MidiInput* newInput = MidiInput::openDevice( i, this );
-
-		if ( newInput )
-		{
-			newInput->start();
-			openInputs.add( newInput );
-		}
-		else
-			delete newInput;
-	}
+    //create a combobox to select a midi device with
+    inputBox = new ComboBox();
+    inputBox->setTextWhenNothingSelected("Select Midi Device...");
+    inputBox->addListener(this);
+    addAndMakeVisible( inputBox );
+    refreshDeviceList();
+    
+    //button to refresh the devices
+    refreshButton = new TextButton("Refresh");
+    refreshButton->addListener(this);
+    addAndMakeVisible( refreshButton );
+    
+    setSize( 600, 400 );
 
 	startTimerHz( 30 );
 }
 
 MainContentComponent::~MainContentComponent()
 {
-	openInputs.clear();
+    openInput = nullptr;
 }
 
 void MainContentComponent::paint( Graphics& g )
@@ -47,14 +41,41 @@ void MainContentComponent::paint( Graphics& g )
 	g.setColour( Colours::whitesmoke );
 
 	for ( int i = 0; i < messages.size(); i++ )
-		g.drawText( messages[i], 10, i * 20, getWidth() - 20, 20, Justification::Flags::centredLeft, true );
+		g.drawText( messages[i], 10, 50 + i * 20, getWidth() - 20, 20, Justification::Flags::centredLeft, true );
 }
 
 void MainContentComponent::resized()
 {
-	// This is called when the MainContentComponent is resized.
-	// If you add any child components, this is where you should
-	// update their positions.
+    inputBox->setBounds(10, 10, 200, 40);
+    refreshButton->setBounds(220, 10, 80, 40 );
+}
+
+void MainContentComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged)
+{
+    if ( comboBoxThatHasChanged == inputBox )
+    {
+        if ( inputBox->getSelectedId() == 0 )
+        {
+            openInput = nullptr;
+        }
+        else
+        {
+            MidiInput* newInput = MidiInput::openDevice( inputBox->getSelectedItemIndex(), this );
+            openInput = newInput;
+            if ( newInput )
+                newInput->start();
+            else
+            {
+                NativeMessageBox::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Error!", "Could not open MIDI device " + inputBox->getItemText( inputBox->getSelectedItemIndex()));
+                inputBox->setSelectedId(0, sendNotification);
+            }
+        }
+    }
+}
+
+void MainContentComponent::buttonClicked(juce::Button *b)
+{
+    refreshDeviceList();
 }
 
 void MainContentComponent::handleIncomingMidiMessage( MidiInput* source, const MidiMessage& message )
@@ -82,4 +103,14 @@ void MainContentComponent::timerCallback()
 {
 	const MessageManagerLock lock;
 	repaint();
+}
+
+void MainContentComponent::refreshDeviceList()
+{
+    inputBox->clear( sendNotification );
+    messages.clear();
+    
+    //check for all connected midi devices
+    juce::StringArray midiDevices = MidiInput::getDevices();
+    inputBox->addItemList(midiDevices, 1);
 }

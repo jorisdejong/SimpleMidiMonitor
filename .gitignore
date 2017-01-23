@@ -3,3 +3,5 @@ Builds/VisualStudio2013/SimpleMidiMonitor.v12.suo
 Builds/VisualStudio2013/SimpleMidiMonitor.sdf
 Builds/VisualStudio2013/SimpleMidiMonitor.opensdf
 Builds/VisualStudio2013/Release/
+Builds/MacOSX/build/
+*.xcuserdatad
