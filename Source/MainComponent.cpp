@@ -60,10 +60,10 @@ void MainContentComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasChange
         }
         else
         {
-            MidiInput* newInput = MidiInput::openDevice( inputBox->getSelectedItemIndex(), this );
-            openInput = newInput;
-            if ( newInput )
-                newInput->start();
+            openInput = MidiInput::openDevice( inputBox->getSelectedItemIndex(), this );
+           /* openInput =  newInput;*/
+            if ( openInput )
+                openInput->start();
             else
             {
                 NativeMessageBox::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Error!", "Could not open MIDI device " + inputBox->getItemText( inputBox->getSelectedItemIndex()));

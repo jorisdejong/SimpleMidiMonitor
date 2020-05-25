@@ -40,7 +40,7 @@ public:
 private:
     void refreshDeviceList();
 	juce::StringArray messages;
-    ScopedPointer<MidiInput> openInput;
+    std::unique_ptr<MidiInput> openInput;
     ScopedPointer<ComboBox> inputBox;
     ScopedPointer<TextButton> refreshButton;
     //==============================================================================

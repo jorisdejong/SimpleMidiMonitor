@@ -5,3 +5,5 @@ Builds/VisualStudio2013/SimpleMidiMonitor.opensdf
 Builds/VisualStudio2013/Release/
 Builds/MacOSX/build/
 *.xcuserdatad
+Builds/VisualStudio2019/.vs
+Builds/VisualStudio2019/x64
